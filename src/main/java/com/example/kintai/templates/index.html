@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>勤怠システム</title>
+</head>
+<body>
+  <h1>打刻</h1>
+  <form method="post">
+    <input type="text" name="employeeCode" placeholder="ID（例: A001）" required>
+    <button type="submit" th:formaction="@{/clock-in}">出勤</button>
+    <button type="submit" th:formaction="@{/clock-out}">退勤</button>
+  </form>
+
+  <h2>勤怠一覧</h2>
+  <table border="1">
+    <tr><th>ID</th><th>出勤</th><th>退勤</th></tr>
+    <tr th:each="r : ${records}">
+      <td th:text="${r.employeeCode}"></td>
+      <td th:text="${#temporals.format(r.clockIn, 'yyyy-MM-dd HH:mm')}"></td>
+      <td th:text="${r.clockOut != null ? #temporals.format(r.clockOut, 'yyyy-MM-dd HH:mm') : '-'}"></td>
+    </tr>
+  </table>
+</body>
+</html>
