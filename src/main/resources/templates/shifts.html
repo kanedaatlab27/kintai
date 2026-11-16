@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>シフト</title>
+</head>
+<body>
+  <p><a th:href="@{/}">← 打刻画面へ</a></p>
+  <h1>シフト登録</h1>
+  <form method="post" th:action="@{/shifts}">
+    <input type="text" name="employeeCode" placeholder="ID（例: A001）" required>
+    <input type="date" name="shiftDate" required>
+    <input type="time" name="startTime" required>
+    〜
+    <input type="time" name="endTime" required>
+    <button type="submit">登録</button>
+  </form>
+
+  <h2>シフト一覧</h2>
+  <table border="1">
+    <tr><th>日付</th><th>ID</th><th>開始</th><th>終了</th><th></th></tr>
+    <tr th:each="s : ${shifts}">
+      <td th:text="${s.shiftDate}"></td>
+      <td th:text="${s.employeeCode}"></td>
+      <td th:text="${#temporals.format(s.startTime, 'HH:mm')}"></td>
+      <td th:text="${#temporals.format(s.endTime, 'HH:mm')}"></td>
+      <td>
+        <form method="post" th:action="@{/shifts/{id}/delete(id=${s.id})}">
+          <button type="submit">削除</button>
+        </form>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
